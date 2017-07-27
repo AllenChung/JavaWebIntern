@@ -18,14 +18,22 @@ import com.allen.bean.EssayBean;
 @Table(name="ZAL_ESSAY")
 public class Essay {
 
+	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid")
+	@Column(name="ID")
 	private String id;
 	
+	@Column(name="TITLE")
 	private String title;
-	
+
+	@Column(name="CONTENT")
 	private String content;
 	
+	@Column(name="AUTHOR")
 	private String author;
 	
+	@Column(name="CREATED_DATE",columnDefinition="TIMESTAMP")
 	private Date date;
 	
 	public Essay() {
@@ -40,10 +48,6 @@ public class Essay {
 		this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(essayBean.getDate());
 	}
 
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid")
-	@Column(name="ID")
 	public String getId() {
 		return id;
 	}
@@ -52,7 +56,6 @@ public class Essay {
 		this.id = id;
 	}
 
-	@Column(name="TITLE")
 	public String getTitle() {
 		return title;
 	}
@@ -61,7 +64,6 @@ public class Essay {
 		this.title = title;
 	}
 
-	@Column(name="CONTENT")
 	public String getContent() {
 		return content;
 	}
@@ -70,7 +72,6 @@ public class Essay {
 		this.content = content;
 	}
 
-	@Column(name="AUTHOR")
 	public String getAuthor() {
 		return author;
 	}
@@ -79,7 +80,6 @@ public class Essay {
 		this.author = author;
 	}
 
-	@Column(name="CREATED_DATE",columnDefinition="TIMESTAMP")
 	public Date getDate() {
 		return date;
 	}
@@ -87,6 +87,4 @@ public class Essay {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	
-	
 }

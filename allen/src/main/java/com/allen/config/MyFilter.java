@@ -21,7 +21,7 @@ public class MyFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain arg2)
 			throws IOException, ServletException {
-		
+		//keep the code in utf-8
 		request.setCharacterEncoding("utf-8");
 		arg2.doFilter(request, response);
 	}

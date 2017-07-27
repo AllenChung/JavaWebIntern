@@ -2,12 +2,16 @@ package com.allen.bean;
 
 import java.util.Map;
 
+//bean for returning result
 public class ResultBean {
 
+	//1 for success, 0 for fail
 	private int result;
 	
-	private String reason;
+	//error message
+	private String message;
 	
+	//returning data
 	private Map<String, Object> data;
 
 	public int getResult() {
@@ -19,11 +23,11 @@ public class ResultBean {
 	}
 
 	public String getReason() {
-		return reason;
+		return message;
 	}
 
-	public void setReason(String reason) {
-		this.reason = reason;
+	public void setReason(String message) {
+		this.message = message;
 	}
 
 	public Map<String, Object> getData() {

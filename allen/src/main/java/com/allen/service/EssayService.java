@@ -18,7 +18,7 @@ public interface EssayService {
 	
 	public ResultBean restGetEssay(String id);
 	
-	public ResultBean restPutOrPostEssay(EssayBean essayBean);
+	public ResultBean restPutOrPostEssay(EssayBean essayBean) throws Exception;
 	
 	public ResultBean restDeleteEssay(String id);
 }

@@ -36,12 +36,12 @@ public class EssayController {
 	}
 	
 	@PutMapping("/essay")
-	public @ResponseBody ResultBean putEssay(@RequestBody EssayBean essayBean) {
+	public @ResponseBody ResultBean putEssay(@RequestBody EssayBean essayBean) throws Exception {
 		return essService.restPutOrPostEssay(essayBean);
 	}
 	
 	@PostMapping("/essay")
-	public @ResponseBody ResultBean postEssay(@RequestBody EssayBean essayBean) {
+	public @ResponseBody ResultBean postEssay(@RequestBody EssayBean essayBean) throws Exception {
 		return essService.restPutOrPostEssay(essayBean);
 	}
 	

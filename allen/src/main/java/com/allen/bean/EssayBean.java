@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 
 import com.allen.model.Essay;
 
+//bean for translate entity
 public class EssayBean {
 
 	private String id;
