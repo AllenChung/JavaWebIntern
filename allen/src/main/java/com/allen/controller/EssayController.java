@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.allen.bean.EssayBean;
@@ -26,27 +25,27 @@ public class EssayController {
 	private EssayService essService;
 	
 	@GetMapping("/essay")
-	public @ResponseBody ResultBean getEssayList() {
+	public ResultBean getEssayList() {
 		return essService.restGetEssayList();
 	}
 	
 	@GetMapping("/essay/{id}")
-	public @ResponseBody ResultBean getEssay(@PathVariable String id) {
+	public ResultBean getEssay(@PathVariable String id) {
 		return essService.restGetEssay(id);
 	}
 	
 	@PutMapping("/essay")
-	public @ResponseBody ResultBean putEssay(@RequestBody EssayBean essayBean) throws Exception {
+	public ResultBean putEssay(@RequestBody EssayBean essayBean) throws Exception {
 		return essService.restPutOrPostEssay(essayBean);
 	}
 	
 	@PostMapping("/essay")
-	public @ResponseBody ResultBean postEssay(@RequestBody EssayBean essayBean) throws Exception {
+	public ResultBean postEssay(@RequestBody EssayBean essayBean) throws Exception {
 		return essService.restPutOrPostEssay(essayBean);
 	}
 	
 	@DeleteMapping("/essay/{id}")
-	public @ResponseBody ResultBean deleteEssay(@PathVariable String id) {
+	public ResultBean deleteEssay(@PathVariable String id) {
 		return essService.restDeleteEssay(id);
 	}
 }

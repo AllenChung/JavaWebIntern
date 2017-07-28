@@ -3,6 +3,8 @@ package com.allen;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.support.ErrorPageFilter;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -33,4 +35,19 @@ public class Application extends SpringBootServletInitializer {
 			}
 		};
 	}
+	
+	//figure the problem of "Cannot forward to error page for request"
+	@Bean
+	public ErrorPageFilter errorPageFilter() {
+	    return new ErrorPageFilter();
+	}
+
+	@Bean
+	public FilterRegistrationBean disableSpringBootErrorFilter(ErrorPageFilter filter) {
+	    FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+	    filterRegistrationBean.setFilter(filter);
+	    filterRegistrationBean.setEnabled(false);
+	    return filterRegistrationBean;
+	}
+
 }
