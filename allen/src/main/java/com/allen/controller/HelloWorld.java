@@ -27,13 +27,16 @@ public class HelloWorld {
 	@Autowired
 	private EssayService essService;
 	
+	@Autowired
+	private HttpSession session;
+	
 	@GetMapping(value="/")
 	public String hello() {
 		return "index";
 	}
 	
 	@GetMapping(value="/showEssay/{id}")
-	public String showEssay(@PathVariable String id, HttpSession session) {
+	public String showEssay(@PathVariable String id) {
 		session.setAttribute("id", id);
 		return "showEssay";
 	}	
@@ -46,7 +49,7 @@ public class HelloWorld {
 	
 	@GetMapping(value="/deleteEssay/{id}")
 	public String deleteEssay(@PathVariable String id) {
-		essService.restDeleteEssay(id);
+		essService.deleteEssay(id);
 		return "redirect:/";
 	}
 	

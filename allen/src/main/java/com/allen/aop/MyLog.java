@@ -2,11 +2,8 @@ package com.allen.aop;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,8 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.allen.bean.LogBean;
 import com.allen.bean.ResultBean;
+import com.allen.config.MyKafkaProducer;
+import com.allen.multiThread.AsyncTask;
 import com.allen.util.ResultBeanFactory;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Aspect
@@ -30,25 +28,45 @@ public class MyLog {
 	@Autowired
 	private HttpServletRequest request;
 	
-//	@Autowired
-//	private KafkaProducer<byte[], byte[]> kp;
+	@Autowired
+	private AsyncTask asyncTask;
+	
+	@Autowired
+	private ObjectMapper mapper;
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	@Pointcut("within(com.allen.controller.EssayController)")
+	@Pointcut("within(com.allen.controller.*)")
 	public void perform() {
 	}
 
 	@Around("perform()")
-	public Object myLog(ProceedingJoinPoint jp) {
+	public Object myLog(ProceedingJoinPoint jp) throws Exception {
+		String uuid = null;
+		if (request.getAttribute("traceId") == null) {  //test whether the traceId exists
+			uuid = UUID.randomUUID().toString().replace("-", "");
+			request.setAttribute("traceId", uuid);
+		} else {
+			uuid = request.getAttribute("traceId").toString();
+		}
+		
+		//get the log asynchronously
+		Future<LogBean> logBeanFuture = asyncTask.getLog(log, jp, uuid, request.getMethod(), request.getRequestURI(), request.getParameterMap().entrySet());
 		Object obj = null;
-		Instant before = Instant.now();
 		Instant after;
+		Instant before = Instant.now();
 		try {
 			obj = jp.proceed();
 			after = Instant.now();
 			long time = Duration.between(before, after).toMillis();
-			String thisLog = (getLog(time, obj, jp));
+			
+			LogBean logBean = logBeanFuture.get();
+			logBean.setElapsed(time);
+			logBean.setResult(obj);
+			
+			String thisLog = mapper.writeValueAsString(logBean);
+			asyncTask.sendToKafka(MyKafkaProducer.KafkaTopic, thisLog); // send the log to Kafka asynchronously
+			
 			if (time > 500) {
 				log.warn(thisLog);
 			} else {
@@ -57,77 +75,18 @@ public class MyLog {
 		} catch (Throwable e) {
 			after = Instant.now();
 			long time = Duration.between(before, after).toMillis();
+			
 			ResultBean result = ResultBeanFactory.getResult(0, e.getMessage(), null);
-			String thisLog = getLog(time, result, jp);
+			LogBean logBean = logBeanFuture.get();
+			logBean.setElapsed(time);
+			logBean.setResult(result);
+			
+			String thisLog = mapper.writeValueAsString(logBean);
+			asyncTask.sendToKafka(MyKafkaProducer.KafkaTopic, thisLog); // send the log to Kafka asynchronously
+			
 			log.error(thisLog);
 			return result;
 		}
 		return obj;
 	}
-
-	//construct the string to log
-	public String getLog(long time, Object obj, ProceedingJoinPoint jp) {
-		LogBean logBean = new LogBean();
-		ObjectMapper mapper = new ObjectMapper();
-		String uuid = UUID.randomUUID().toString().replace("-", "");
-		request.setAttribute("traceId", uuid);
-		logBean.setTraceId(uuid);
-		logBean.setElapsed(time);
-		logBean.setRequestMethod(request.getMethod());
-		logBean.setUrl(request.getRequestURI());
-
-		Map<String, Object> map = new HashMap<>();
-		for (Map.Entry<String, String[]> e : request.getParameterMap().entrySet()) { //get the params in the URL
-			for (int i = 0; i < e.getValue().length; i++) {
-				map.put(e.getKey(), e.getValue());
-			}
-		}
-		List<String> strs = new LinkedList<>();  //store the params in the HTTP body
-		for (final Object argument : jp.getArgs()) {  //get the params in the HTTP body
-			try {
-				String str = mapper.writeValueAsString(argument);
-				if (str.startsWith("{")) { //params start with { means it's  a json and it had'n been contained above
-					strs.add(str);
-				}
-			} catch (JsonProcessingException e1) {
-				log.error(e1.getMessage());
-			}
-		}
-		if (strs.size() > 0) {
-			map.put("responseBody", strs);
-		}
-		logBean.setParams(map);
-
-		logBean.setResult(obj);
-
-		logBean.setMethodName(jp.getSignature().getName());
-		try {
-			String thisLog = mapper.writeValueAsString(logBean);
-//			send("Log", "log".getBytes(), thisLog.getBytes());
-			return thisLog;
-		} catch (JsonProcessingException e1) {
-			log.error(e1.getMessage());
-		}
-		return null;
-	}
-	
-	//send the log to kafka
-//	public void send(String topic, byte[] key, byte[] value) {
-//		//message encapsulation
-//		ProducerRecord<byte[], byte[]> pr = new ProducerRecord<byte[], byte[]>(topic, key, value);
-//
-//		//send the data
-//		kp.send(pr, new Callback() {
-//
-//			//call back function
-//			public void onCompletion(RecordMetadata metadata, Exception exception) {
-//				if (null != exception) {
-//					log.info("offset:" + metadata.offset() + " " + exception.getMessage() + exception);
-//				}
-//			}
-//		});
-//
-//		//close kp
-//		kp.close();
-//	}
 }
