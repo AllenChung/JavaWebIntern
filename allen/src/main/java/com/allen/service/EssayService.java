@@ -2,7 +2,7 @@ package com.allen.service;
 
 import java.util.List;
 
-import com.allen.bean.EssayBean;
+import com.allen.dto.EssayBean;
 import com.allen.model.Essay;
 
 public interface EssayService {

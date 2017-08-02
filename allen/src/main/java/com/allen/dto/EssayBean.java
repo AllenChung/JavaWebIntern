@@ -1,4 +1,4 @@
-package com.allen.bean;
+package com.allen.dto;
 
 import java.text.SimpleDateFormat;
 

@@ -2,6 +2,7 @@ package com.allen.bean;
 
 import java.util.Map;
 
+//bean for logging
 public class LogBean {
 	
 	private String traceId;

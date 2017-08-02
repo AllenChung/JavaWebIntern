@@ -105,6 +105,14 @@
 			<artifactId>spring-kafka</artifactId>
 			<version>1.2.2.RELEASE</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
+		
+		<!-- Redis -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+			<version>1.4.3.RELEASE</version>
+		</dependency>
+		
 	</dependencies>
 
 

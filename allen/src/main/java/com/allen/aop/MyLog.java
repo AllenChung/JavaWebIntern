@@ -65,7 +65,7 @@ public class MyLog {
 			logBean.setResult(obj);
 			
 			String thisLog = mapper.writeValueAsString(logBean);
-			asyncTask.sendToKafka(MyKafkaProducer.KafkaTopic, thisLog); // send the log to Kafka asynchronously
+			asyncTask.sendLogToKafka(MyKafkaProducer.KafkaTopic, thisLog); // send the log to Kafka asynchronously
 			
 			if (time > 500) {
 				log.warn(thisLog);
@@ -73,6 +73,7 @@ public class MyLog {
 				log.info(thisLog);
 			}
 		} catch (Throwable e) {
+			e.printStackTrace();
 			after = Instant.now();
 			long time = Duration.between(before, after).toMillis();
 			
@@ -82,7 +83,7 @@ public class MyLog {
 			logBean.setResult(result);
 			
 			String thisLog = mapper.writeValueAsString(logBean);
-			asyncTask.sendToKafka(MyKafkaProducer.KafkaTopic, thisLog); // send the log to Kafka asynchronously
+			asyncTask.sendLogToKafka(MyKafkaProducer.KafkaTopic, thisLog); // send the log to Kafka asynchronously
 			
 			log.error(thisLog);
 			return result;

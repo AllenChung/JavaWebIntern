@@ -9,8 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.allen.bean.EssayBean;
 import com.allen.dao.EssayDao;
+import com.allen.dto.EssayBean;
 import com.allen.model.Essay;
 
 @Service("EssayService")

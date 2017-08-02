@@ -60,7 +60,12 @@ public class AsyncTask {
 	}
 	
 	@Async
-	public void sendToKafka(String topic, String log) throws InterruptedException{
+	public void sendLogToKafka(String topic, String log) throws InterruptedException{
 		kt.send(topic, log);
+	}
+	
+	@Async
+	public void sendMsgToKafka(String topic, String key, String value) throws InterruptedException{
+		kt.send(topic, key, value);
 	}
 }

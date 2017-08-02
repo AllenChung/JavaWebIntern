@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.allen.bean.EssayBean;
 import com.allen.bean.ResultBean;
+import com.allen.dto.EssayBean;
 import com.allen.service.EssayService;
 import com.allen.util.ResultBeanFactory;
 

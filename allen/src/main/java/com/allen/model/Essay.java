@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.allen.bean.EssayBean;
+import com.allen.dto.EssayBean;
 
 @Entity
 @Table(name="ZAL_ESSAY")
