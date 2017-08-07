@@ -1,7 +1,5 @@
 package com.allen.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,7 +10,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.allen.dto.EssayBean;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name="ZAL_ESSAY")
@@ -33,6 +31,7 @@ public class Essay {
 	@Column(name="AUTHOR")
 	private String author;
 	
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name="CREATED_DATE",columnDefinition="TIMESTAMP")
 	private Date date;
 	
@@ -40,13 +39,13 @@ public class Essay {
 		
 	}
 	
-	public Essay(EssayBean essayBean) throws ParseException {
-		this.author = essayBean.getAuthor();
-		this.content = essayBean.getContent();
-		this.id = essayBean.getId();
-		this.title = essayBean.getTitle();
-		this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(essayBean.getDate());
-	}
+//	public Essay(EssayBean essayBean) throws ParseException {
+//		this.author = essayBean.getAuthor();
+//		this.content = essayBean.getContent();
+//		this.id = essayBean.getId();
+//		this.title = essayBean.getTitle();
+//		this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(essayBean.getDate());
+//	}
 
 	public String getId() {
 		return id;

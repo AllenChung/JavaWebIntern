@@ -58,7 +58,7 @@ public class ConfigInfoController {
 	//controller for return config index page
 	@GetMapping("/configIndex")
 	public String getConfigIndex() {
-		List<Config> configBeans = new LinkedList<>();
+		List<Config> configBeans = new LinkedList<Config>();
 		for (ConfigInfo c: conService.getList()) {
 			configBeans.add(new Config(c));
 		}
@@ -70,7 +70,7 @@ public class ConfigInfoController {
 	@GetMapping("/configInfo/{key:.*}")
 	public @ResponseBody ResultBean getByKey(@PathVariable String key) {
 		System.out.println(key);
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(key, conService.getValueBykey(key));
 		return ResultBeanFactory.getResult(1, null, map);
 	}

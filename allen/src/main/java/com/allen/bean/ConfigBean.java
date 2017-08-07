@@ -1,7 +1,14 @@
 package com.allen.bean;
 
+import java.io.Serializable;
+
 //bean for cache the config data
-public class ConfigBean {
+public class ConfigBean implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String value;
 	

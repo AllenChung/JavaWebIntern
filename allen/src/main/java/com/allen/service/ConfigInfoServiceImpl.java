@@ -46,11 +46,11 @@ public class ConfigInfoServiceImpl implements ConfigInfoService {
 	//check whether the config has changed
 	@Override
 	public boolean testConfigChange(ConfigInfoTest configInfoTest) {
-		String md5 = redis.opsForValue().get(configInfoTest.getKey()).getMd5();
-		if (md5 == null) {
+		ConfigBean configBean = redis.opsForValue().get(configInfoTest.getKey());
+		if (configBean == null) {
 			throw new RuntimeException("there is no this key in redis");
 		}
-		if (configInfoTest.getMd5().equals(md5)) {
+		if (configInfoTest.getMd5().equals(configBean.getMd5())) {
 			return false;
 		} else {
 			return true;
@@ -59,9 +59,10 @@ public class ConfigInfoServiceImpl implements ConfigInfoService {
 
 	@Override
 	public String getValueBykey(String key) {
-		String value = redis.opsForValue().get(key).getValue();
-		if (value != null) {
-			return value;
+		ConfigBean configBean =  redis.opsForValue().get(key);
+		
+		if (configBean != null) {
+			return configBean.getValue();
 		}
 		return configDao.getValueBykey(key);
 	}

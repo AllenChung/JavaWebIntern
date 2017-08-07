@@ -3,5 +3,7 @@ encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/webapp/WEB-INF/configIndex.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/createEssay.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/index.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/showEssay.jsp=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

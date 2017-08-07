@@ -37,13 +37,13 @@ public class AsyncTask {
 		logBean.setRequestMethod(requestMethod);
 		logBean.setUrl(uri);
 
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		for (Map.Entry<String, String[]> e : entries) { //get the params in the URL
 			for (int i = 0; i < e.getValue().length; i++) {
 				map.put(e.getKey(), e.getValue());
 			}
 		}
-		List<String> strs = new LinkedList<>();  //store the params in the HTTP body
+		List<String> strs = new LinkedList<String>();  //store the params in the HTTP body
 		for (final Object argument : jp.getArgs()) {  //get the params in the HTTP body
 			String str = mapper.writeValueAsString(argument);
 			if (str.startsWith("{")) { //params start with { means it's  a json and it had'n been contained above

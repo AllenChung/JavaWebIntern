@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.allen.dto.EssayBean;
 import com.allen.model.Essay;
 import com.allen.service.EssayService;
 
@@ -45,8 +45,8 @@ public class HelloWorld {
 	
 	//controller for create or update essay
 	@PostMapping(value="/postEssay")
-	public String postEssay(EssayBean essayBean) throws ParseException {
-		essService.saveOrUpdate(new Essay(essayBean));
+	public String postEssay(@RequestBody Essay essay) throws ParseException {
+		essService.saveOrUpdate(essay);
 		return "redirect:/";
 	}
 	
@@ -65,13 +65,13 @@ public class HelloWorld {
 	
 	//controller for essay list
 	@GetMapping("/essayList")
-	public @ResponseBody List<EssayBean> getEssayList() {
+	public @ResponseBody List<Essay> getEssayList() {
 		return essService.getEssayList();
 	}
 	
 	//get essay by id
 	@GetMapping("/essaySingle/{id}")
-	public @ResponseBody EssayBean getEssay(@PathVariable String id) {
+	public @ResponseBody Essay getEssay(@PathVariable String id) {
 		return essService.getEssay(id);
 	}
 }

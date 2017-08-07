@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.allen.dao.EssayDao;
-import com.allen.dto.EssayBean;
 import com.allen.model.Essay;
 
 @Service("EssayService")
@@ -26,23 +25,23 @@ public class EssayServiceImpl implements EssayService {
 	}
 
 	@Override
-	public List<EssayBean> getEssayList() {
+	public List<Essay> getEssayList() {
 		List<Essay> essays = essayDao.getEssayList();
-		List<EssayBean> essayBeans = new LinkedList<>();
+		List<Essay> essayBeans = new LinkedList<Essay>();
 		for (Essay essay : essays) {
-			essayBeans.add(new EssayBean(essay));
+			essayBeans.add(essay);
 		}
 		return essayBeans;
 	}
 
 	@Override
-	public EssayBean getEssay(String id) {
-		return new EssayBean(essayDao.getEssay(id));
+	public Essay getEssay(String id) {
+		return essayDao.getEssay(id);
 	}
 
 	@Override
-	public void putOrPostEssay(EssayBean essayBean) throws ParseException {
-		essayDao.saveOrUpdate(new Essay(essayBean));
+	public void putOrPostEssay(Essay essay) throws ParseException {
+		essayDao.saveOrUpdate(essay);
 	}
 
 	@Override

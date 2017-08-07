@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.allen.bean.ResultBean;
-import com.allen.dto.EssayBean;
+import com.allen.model.Essay;
 import com.allen.service.EssayService;
 import com.allen.util.ResultBeanFactory;
 
@@ -31,9 +31,9 @@ public class EssayController {
 	
 	@GetMapping("/essay")
 	public ResultBean getEssayList() {
-		List<EssayBean> essayBeans = essService.getEssayList();
+		List<Essay> essay = essService.getEssayList();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("essayList", essayBeans);
+		map.put("essayList", essay);
 		return ResultBeanFactory.getResult(1, null, map);
 	}
 	
@@ -45,14 +45,14 @@ public class EssayController {
 	}
 	
 	@PutMapping("/essay")
-	public ResultBean putEssay(@RequestBody EssayBean essayBean) throws Exception {
-		essService.putOrPostEssay(essayBean);
+	public ResultBean putEssay(@RequestBody Essay essay) throws Exception {
+		essService.putOrPostEssay(essay);
 		return ResultBeanFactory.getResult(1, null, null);
 	}
 	
 	@PostMapping("/essay")
-	public ResultBean postEssay(@RequestBody EssayBean essayBean) throws Exception {
-		essService.putOrPostEssay(essayBean);
+	public ResultBean postEssay(@RequestBody Essay essay) throws Exception {
+		essService.putOrPostEssay(essay);
 		return ResultBeanFactory.getResult(1, null, null);
 	}
 	
