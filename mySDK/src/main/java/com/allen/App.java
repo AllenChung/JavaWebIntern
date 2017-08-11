@@ -1,6 +1,5 @@
 package com.allen;
 
-import java.io.IOException;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -8,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.allen.cache.MyCache;
 import com.allen.kafka.MyKafka;
+import com.allen.quartz.MyJob;
 import com.allen.quartz.MyQuartz;
 
 /**
@@ -17,10 +17,10 @@ import com.allen.quartz.MyQuartz;
 public class App {
 
 	private static Logger logger = LoggerFactory.getLogger(App.class);
+	private static MyKafka mykafka = new MyKafka();
+	private static MyQuartz myQuartz = new MyQuartz();
 
 	public static void main(String[] args) throws Exception {
-		MyKafka mykafka = new MyKafka();
-		MyQuartz myQuartz = new MyQuartz();
 		try {
 			init();
 			
@@ -43,9 +43,13 @@ public class App {
 		}
 	}
 	
-	public static void init() throws IOException {
+	public static void init() throws Exception {
 		Properties prop = new Properties();
 		prop.load(App.class.getClassLoader().getResourceAsStream("config.properties"));
+		if (prop.getProperty(MyCache.KEY) == null) {
+			MyJob job = new MyJob();
+			job.execute(null);
+		}
 		MyCache.cacheMap.put(MyCache.KEY, prop.getProperty(MyCache.KEY));
 	}
 

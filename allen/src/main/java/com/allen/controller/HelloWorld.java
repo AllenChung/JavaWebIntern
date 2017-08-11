@@ -74,4 +74,29 @@ public class HelloWorld {
 	public @ResponseBody Essay getEssay(@PathVariable String id) {
 		return essService.getEssay(id);
 	}
+	
+	@GetMapping("/partItem") 
+	public String getSearchIndex() {
+		return "searchIndex";
+	}
+	
+	@GetMapping("/getRule") 
+	public String getRule() {
+		return "rule";
+	}
+	
+	@GetMapping("/getDescriptionAdd") 
+	public String getDescriptionAdd() {
+		return "descriptionAdd";
+	}
+	
+	@GetMapping("/getDescriptionModify") 
+	public String getDescriptionModify() {
+		return "descriptionModify";
+	}
+	
+	@GetMapping("/getSearch") 
+	public String getSearch() {
+		return "search";
+	}
 }

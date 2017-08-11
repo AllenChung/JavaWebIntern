@@ -38,14 +38,6 @@ public class Essay {
 	public Essay() {
 		
 	}
-	
-//	public Essay(EssayBean essayBean) throws ParseException {
-//		this.author = essayBean.getAuthor();
-//		this.content = essayBean.getContent();
-//		this.id = essayBean.getId();
-//		this.title = essayBean.getTitle();
-//		this.date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(essayBean.getDate());
-//	}
 
 	public String getId() {
 		return id;

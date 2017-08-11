@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({"com.allen.config"})
-//@PropertySource(value = {"classpath:database.properties"})
 public class HibernateConfig {
 	
 	@Autowired
